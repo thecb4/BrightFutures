@@ -11,7 +11,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-      .package(url: "https://github.com/thecb4/Result.git", .upToNextMinor(from: "0.6.0"))
+      .package(url: "https://github.com/thecb4/Result.git", from: "0.7.0")
 //      .package(url: "https://github.com/freshOS/then.git",  .upToNextMinor(from: "3.0.2"))
     ],
     targets: [
@@ -24,6 +24,6 @@ let package = Package(
             sources:["BrightFutures/Core"]),
         .testTarget(
             name: "BrightFuturesUnitTests",
-            dependencies: ["Result","BrightFutures"]),
+            dependencies: ["Result", "BrightFutures"])
     ]
 )
