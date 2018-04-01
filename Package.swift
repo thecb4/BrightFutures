@@ -28,5 +28,6 @@ let package = Package(
         .testTarget(
             name: "BrightFuturesUnitTests",
             dependencies: ["Result", "BrightFutures"])
-    ]
+    ],
+    swiftLanguageVersions: [4]
 )
