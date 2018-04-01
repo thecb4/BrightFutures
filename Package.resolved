@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Result",
+        "repositoryURL": "https://github.com/thecb4/Result.git",
+        "state": {
+          "branch": null,
+          "revision": "ec9ccc520737401564c365c6fad3544599ca8084",
+          "version": "0.7.13"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
