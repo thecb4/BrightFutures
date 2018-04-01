@@ -1,0 +1,60 @@
+# https://github.com/yonaskolb/XcodeGen/blob/master/Docs/ProjectSpec.md
+
+name: BrightFutures
+options:
+  usesTabs: false
+  indentWidth: 2
+  createIntermediateGroups: true
+  bundleIdPrefix: io.thecb4
+  settingPresets: all
+  carthageCopyScript: true
+configs:
+  Debug: debug
+  Release: release
+fileGroups:
+  - Sources
+  - Tests
+targets:
+  BrightFutures:
+    type: framework
+    platformSuffix: -$platform
+    platform: [macOS, iOS, tvOS, watchOS]
+    settings:
+      INFOPLIST_FILE: Resources/BrightFutures/Core/Info.plist
+    sources:
+      - Sources/BrightFutures/Core
+      - Sources/BrightFutures/$platform
+    scheme:
+      testTargets:
+        - BrightFuturesUnitTests-$platform
+      gatherCoverageData: true
+      #commandLineArguments:
+    dependencies:
+      - carthage: Result
+        embed: true
+  BrightFuturesUnitTests:
+    type: bundle.unit-test
+    platformSuffix: -$platform
+    platform: [macOS, iOS, tvOS, watchOS]
+    settings:
+      INFOPLIST_FILE: Tests/Resources/BrightFutures/Core/Info.plist
+    sources:
+      - Tests/BrightFuturesUnitTests/Core
+      - Tests/BrightFuturesUnitTests/$platform
+    dependencies:
+      # - carthage: RxSwift
+      # - carthage: Dwifft
+      - carthage: Result
+        embed: true
+      - target: BrightFutures-$platform
+  # GenKitUITests:
+  #   type: bundle.ui-testing
+  #   platform: [macOS, iOS, tvOS, watchOS]
+  #   sources:
+  #     - Framework/Tests/UI/Core
+  #     - Framework/Tests/UI/Core/$platform
+  #   dependencies:
+  #     # - carthage: RxSwift
+  #     # - carthage: Dwifft
+  #     # - carthage: SwiftCheck
+  #     - target: GenKit_$platform
