@@ -21,7 +21,8 @@ public extension LoggerType {
         if let identifier = identifier {
             messageBody = "Future \(identifier)"
         } else {
-            let fileName = (file as NSString).lastPathComponent
+//            let fileName = (file as NSString).lastPathComponent
+            let fileName = URL(fileURLWithPath: file).lastPathComponent
             messageBody = "\(fileName) at line \(line), func: \(function) - future"
         }
         
