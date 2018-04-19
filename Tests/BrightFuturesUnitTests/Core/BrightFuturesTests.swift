@@ -590,7 +590,7 @@ extension BrightFuturesTests {
 
     func testDelay() {
       
-      if #available(iOS 10.0, macOS 10.11, watchOS 3.0, tvOS 10.0, *) {
+      #if os(Linux)
       
         let t0 = CACurrentMediaTime()
         let f = Future<Int, NoError>(value: 1).delay(0.seconds);
@@ -611,9 +611,11 @@ extension BrightFuturesTests {
 
         self.waitForExpectations(timeout: 2, handler: nil)
       
-      } else {
+      #else
+      
         print("running linx")
-      }
+    
+      #endif
       
     }
 
