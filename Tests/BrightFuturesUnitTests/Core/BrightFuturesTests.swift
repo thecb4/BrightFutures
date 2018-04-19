@@ -592,28 +592,28 @@ extension BrightFuturesTests {
       
       #if os(Linux)
       
+        print("running linux")
+      
+      #else
+      
         let t0 = CACurrentMediaTime()
         let f = Future<Int, NoError>(value: 1).delay(0.seconds);
         XCTAssertFalse(f.isCompleted)
         var isAsync = false
-
+      
         let e = self.expectation()
         f.onComplete(ImmediateExecutionContext) { _ in
-            XCTAssert(Thread.isMainThread)
-            XCTAssert(isAsync)
-            XCTAssert(CACurrentMediaTime() - t0 >= 0)
-        }.delay(1.second).onComplete { _ in
+          XCTAssert(Thread.isMainThread)
+          XCTAssert(isAsync)
+          XCTAssert(CACurrentMediaTime() - t0 >= 0)
+          }.delay(1.second).onComplete { _ in
             XCTAssert(Thread.isMainThread)
             XCTAssert(CACurrentMediaTime() - t0 >= 1)
             e.fulfill()
         }
         isAsync = true
-
+      
         self.waitForExpectations(timeout: 2, handler: nil)
-      
-      #else
-      
-        print("running linx")
     
       #endif
       
