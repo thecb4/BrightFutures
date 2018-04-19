@@ -11,21 +11,11 @@ Our Big Hairy Audacious Goal (BHAG) is to be copy-pasted into the Swift standard
 The stability of BrightFutures has been proven through extensive use in production. It is currently being used in several apps, with a combined total of almost 500k monthly active users. If you use BrightFutures in production, we'd love to hear about it!
 
 ## Latest news
-[![Join the chat at https://gitter.im/Thomvis/BrightFutures](https://badges.gitter.im/Thomvis/BrightFutures.svg)](https://gitter.im/Thomvis/BrightFutures?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Travis CI build status badge](https://travis-ci.org/Thomvis/BrightFutures.svg?branch=master)](https://travis-ci.org/Thomvis/BrightFutures) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![CocoaPods version](https://img.shields.io/cocoapods/v/BrightFutures.svg)](https://cocoapods.org/pods/BrightFutures) [![CocoaPods](https://img.shields.io/cocoapods/metrics/doc-percent/BrightFutures.svg?maxAge=2592000)](http://cocoadocs.org/docsets/BrightFutures)
+[![Join the chat at https://gitter.im/Thomvis/BrightFutures](https://badges.gitter.im/Thomvis/BrightFutures.svg)](https://gitter.im/Thomvis/BrightFutures?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Travis CI build status badge](https://travis-ci.org/thecb4/BrightFutures.svg?branch=master)](https://travis-ci.org/Thomvis/BrightFutures) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 BrightFutures 6.0 is now available! This update adds Swift 4 compatibility and contains breaking changes that are in line with the syntax changes between Swift 3 and 4.
 
 ## Installation
-### [CocoaPods](http://cocoapods.org/)
-
-1. Add the following to your [Podfile](http://guides.cocoapods.org/using/the-podfile.html):
-
-    ```rb
-    pod 'BrightFutures'
-    ```
-
-2. Integrate your dependencies using frameworks: add `use_frameworks!` to your Podfile. 
-3. Run `pod install`.
 
 ### [Carthage](https://github.com/Carthage/Carthage)
 
@@ -99,7 +89,7 @@ let f = DispatchQueue.global().asyncResult { () -> Result<Date, ReadmeError> in
     if let now = serverTime() {
         return Result(value: now)
     }
-    
+
     return Result(error: ReadmeError.TimeServiceError)
 }
 
@@ -137,7 +127,7 @@ Using the `andThen` function on a `Future`, the order of callbacks can be explic
 
 ```swift
 var answer = 10
-    
+
 let _ = Future<Int, NoError>(value: 4).andThen { result in
     switch result {
     case .success(let val):
@@ -248,7 +238,7 @@ With `sequence`, you can turn a list of Futures into a single Future that contai
 
 ```swift
 let fibonacciSequence = [fibonacciFuture(1), fibonacciFuture(2),  ..., fibonacciFuture(10)]
-    
+
 fibonacciSequence.sequence().onSuccess { fibNumbers in
     // fibNumbers is an array of Ints: [1, 1, 2, 3, etc.]
 }
@@ -298,13 +288,13 @@ An invalidation token can be used to invalidate a callback, preventing it from b
 ```swift
 class MyCell : UICollectionViewCell {
     var token = InvalidationToken()
-    
+
     public override func prepareForReuse() {
         super.prepareForReuse()
         token.invalidate()
         token = InvalidationToken()
     }
-    
+
     public func setModel(model: Model) {
         ImageLoader.loadImage(model.image).onSuccess(token.validContext) { [weak self] UIImage in
             self?.imageView.image = UIImage

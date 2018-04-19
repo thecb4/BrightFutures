@@ -24,6 +24,12 @@ import XCTest
 import BrightFutures
 import Result
 
+#if os(Linux)
+  let random_generator = random
+#else
+  let random_generator = arc4random_uniform
+#endif
+
 class BrightFuturesTests: XCTestCase {
 
     override func setUp() {
@@ -123,7 +129,7 @@ extension BrightFuturesTests {
         XCTAssert(!f.isSuccess)
         XCTAssert(!f.isFailure)
 
-        sleep(UInt32(Double(arc4random_uniform(100))/100.0))
+        sleep(UInt32(Double(random_generator(100))/100.0))
 
         XCTAssert(!f.isCompleted)
     }
@@ -583,6 +589,9 @@ extension BrightFuturesTests {
     }
 
     func testDelay() {
+      
+      if #available(iOS 10.0, macOS 10.11, watchOS 3.0, tvOS 10.0, *) {
+      
         let t0 = CACurrentMediaTime()
         let f = Future<Int, NoError>(value: 1).delay(0.seconds);
         XCTAssertFalse(f.isCompleted)
@@ -601,6 +610,11 @@ extension BrightFuturesTests {
         isAsync = true
 
         self.waitForExpectations(timeout: 2, handler: nil)
+      
+      } else {
+        print("running linx")
+      }
+      
     }
 
     func testDelayOnGlobalQueue() {
@@ -985,6 +999,8 @@ extension BrightFuturesTests {
 
 }
 
+
+
 /**
  * This extension contains miscellaneous tests
  */
@@ -997,12 +1013,12 @@ extension BrightFuturesTests {
             var failingFutures = [Future<Int, NSError>]()
             let contexts: [ExecutionContext] = [ImmediateExecutionContext, DispatchQueue.main.context, DispatchQueue.global().context]
 
-            let randomContext: () -> ExecutionContext = { contexts[Int(arc4random_uniform(UInt32(contexts.count)))] }
+            let randomContext: () -> ExecutionContext = { contexts[Int(random_generator(UInt32(contexts.count)))] }
             let randomFuture: () -> Future<Int, NSError> = {
                 if arc4random() % 2 == 0 {
-                    return successfulFutures[Int(arc4random_uniform(UInt32(successfulFutures.count)))]
+                    return successfulFutures[Int(random_generator(UInt32(successfulFutures.count)))]
                 } else {
-                    return failingFutures[Int(arc4random_uniform(UInt32(failingFutures.count)))]
+                    return failingFutures[Int(random_generator(UInt32(failingFutures.count)))]
                 }
             }
 
@@ -1011,7 +1027,7 @@ extension BrightFuturesTests {
             for _ in 1...instances {
                 var future: Future<Int, NSError>
                 if arc4random() % 2 == 0 {
-                    let futureResult: Int = Int(arc4random_uniform(10))
+                    let futureResult: Int = Int(random_generator(10))
                     finalSum += futureResult
                     future = self.succeedingFuture(futureResult)
                     successfulFutures.append(future)
@@ -1037,7 +1053,7 @@ extension BrightFuturesTests {
                 let e = self.expectation(description: "future completes in context \(context)")
 
                 DispatchQueue.global().async {
-                    usleep(arc4random_uniform(100))
+                    usleep(random_generator(100))
 
                     f.onComplete(context) { res in
                         e.fulfill()
@@ -1139,14 +1155,14 @@ extension XCTestCase {
 
     func failingFuture<U>() -> Future<U, NSError> {
         return DispatchQueue.global().asyncResult {
-            usleep(arc4random_uniform(100))
+            usleep(random_generator(100))
             return Result(error: NSError(domain: "failedFuture", code: 0, userInfo: nil))
         }
     }
 
     func succeedingFuture<U>(_ val: U) -> Future<U, NSError> {
         return DispatchQueue.global().asyncResult {
-            usleep(arc4random_uniform(100))
+            usleep(random_generator(100))
             return Result(value: val)
         }
     }
