@@ -30,6 +30,7 @@ import Result
   let random_generator = arc4random_uniform
 #endif
 
+
 class BrightFuturesTests: XCTestCase {
 
     override func setUp() {
@@ -43,7 +44,20 @@ class BrightFuturesTests: XCTestCase {
     }
 }
 
+func random_generator(_ limit: UInt32) -> UInt32 {
+  
+  #if os(Linux)
+    return random()
+  #else
+    return arc4random_uniform(UInt32(limit))
+  #endif
+  
+}
+
 extension BrightFuturesTests {
+  
+
+  
     func testCompletedFuture() {
         let f = Future<Int, NoError>(value: 2)
 
@@ -592,28 +606,28 @@ extension BrightFuturesTests {
       
       #if os(Linux)
       
+        print("running linux")
+      
+      #else
+      
         let t0 = CACurrentMediaTime()
         let f = Future<Int, NoError>(value: 1).delay(0.seconds);
         XCTAssertFalse(f.isCompleted)
         var isAsync = false
-
+      
         let e = self.expectation()
         f.onComplete(ImmediateExecutionContext) { _ in
-            XCTAssert(Thread.isMainThread)
-            XCTAssert(isAsync)
-            XCTAssert(CACurrentMediaTime() - t0 >= 0)
-        }.delay(1.second).onComplete { _ in
+          XCTAssert(Thread.isMainThread)
+          XCTAssert(isAsync)
+          XCTAssert(CACurrentMediaTime() - t0 >= 0)
+          }.delay(1.second).onComplete { _ in
             XCTAssert(Thread.isMainThread)
             XCTAssert(CACurrentMediaTime() - t0 >= 1)
             e.fulfill()
         }
         isAsync = true
-
+      
         self.waitForExpectations(timeout: 2, handler: nil)
-      
-      #else
-      
-        print("running linx")
     
       #endif
       
