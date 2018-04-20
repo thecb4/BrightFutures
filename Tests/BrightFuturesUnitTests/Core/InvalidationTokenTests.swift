@@ -106,7 +106,7 @@ class InvalidationTokenTests: XCTestCase {
             let currentI = counter.i
             let e = self.expectation()
             DispatchQueue.global().asyncValue { () -> Bool in
-                let sleep: Foundation.TimeInterval = TimeInterval(arc4random() % 100) / 100000.0
+                let sleep: Foundation.TimeInterval = TimeInterval(random_generator() % 100) / 100000.0
                 Thread.sleep(forTimeInterval: sleep)
                 return true
             }.onSuccess(token.validContext(q.context)) { _ in
