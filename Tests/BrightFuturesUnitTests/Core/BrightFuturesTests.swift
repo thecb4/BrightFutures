@@ -24,13 +24,6 @@ import XCTest
 import BrightFutures
 import Result
 
-#if os(Linux)
-  let random_generator = random
-#else
-  let random_generator = arc4random_uniform
-#endif
-
-
 class BrightFuturesTests: XCTestCase {
 
     override func setUp() {
@@ -44,10 +37,10 @@ class BrightFuturesTests: XCTestCase {
     }
 }
 
-func random_generator(_ limit: UInt32) -> UInt32 {
+func random_generator(_ limit: UInt32 = 1000) -> UInt32 {
   
   #if os(Linux)
-    return random()
+    return UInt32(random())
   #else
     return arc4random_uniform(UInt32(limit))
   #endif
@@ -646,18 +639,25 @@ extension BrightFuturesTests {
     }
 
     func testDelayChaining() {
+      
+      #if os(Linux)
+      
+        print("Linux")
+      
+      #else
         let e = self.expectation()
         let t0 = CACurrentMediaTime()
         let _ = Future<Void, NoError>(value: ())
-            .delay(1.second)
-            .andThen { _ in XCTAssert(CACurrentMediaTime() - t0 >= 1) }
-            .delay(1.second)
-            .andThen { _ in
-                XCTAssert(CACurrentMediaTime() - t0 >= 2)
-                e.fulfill()
-            }
-
+          .delay(1.second)
+          .andThen { _ in XCTAssert(CACurrentMediaTime() - t0 >= 1) }
+          .delay(1.second)
+          .andThen { _ in
+            XCTAssert(CACurrentMediaTime() - t0 >= 2)
+            e.fulfill()
+        }
+      
         self.waitForExpectations(timeout: 3, handler: nil)
+      #endif
     }
 
     func testFlatMap() {
@@ -1031,7 +1031,7 @@ extension BrightFuturesTests {
 
             let randomContext: () -> ExecutionContext = { contexts[Int(random_generator(UInt32(contexts.count)))] }
             let randomFuture: () -> Future<Int, NSError> = {
-                if arc4random() % 2 == 0 {
+                if random_generator() % 2 == 0 {
                     return successfulFutures[Int(random_generator(UInt32(successfulFutures.count)))]
                 } else {
                     return failingFutures[Int(random_generator(UInt32(failingFutures.count)))]
@@ -1042,7 +1042,7 @@ extension BrightFuturesTests {
 
             for _ in 1...instances {
                 var future: Future<Int, NSError>
-                if arc4random() % 2 == 0 {
+                if random_generator() % 2 == 0 {
                     let futureResult: Int = Int(random_generator(10))
                     finalSum += futureResult
                     future = self.succeedingFuture(futureResult)
