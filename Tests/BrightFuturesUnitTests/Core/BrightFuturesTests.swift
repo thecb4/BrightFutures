@@ -30,6 +30,7 @@ import Result
   let random_generator = arc4random_uniform
 #endif
 
+
 class BrightFuturesTests: XCTestCase {
 
     override func setUp() {
@@ -43,7 +44,20 @@ class BrightFuturesTests: XCTestCase {
     }
 }
 
+func random_generator(_ limit: UInt32) -> UInt32 {
+  
+  #if os(Linux)
+    return random()
+  #else
+    return arc4random_uniform(UInt32(limit))
+  #endif
+  
+}
+
 extension BrightFuturesTests {
+  
+
+  
     func testCompletedFuture() {
         let f = Future<Int, NoError>(value: 2)
 
