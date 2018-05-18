@@ -35,7 +35,6 @@
 		BF_284619951709 /* ExecutionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_543560233285 /* ExecutionContext.swift */; };
 		BF_288391698356 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR_139672448824 /* Promise.swift */; };
 		BF_295157306865 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FR_131384036341 /* Result.framework */; };
-		"BF_295157306865-1" /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FR_131384036341 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BF_296161795866 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FR_131384036341 /* Result.framework */; };
 		"BF_296161795866-1" /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FR_131384036341 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BF_306884611048 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FR_763057275314 /* Result.framework */; };
@@ -155,16 +154,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		CFBP_2121982880 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				"BF_295157306865-1" /* Result.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CFBP_6396368171 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -514,7 +503,6 @@
 			buildPhases = (
 				SBP_19365569965 /* Sources */,
 				FBP_19365569965 /* Frameworks */,
-				CFBP_2121982880 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -531,7 +519,6 @@
 			buildPhases = (
 				SBP_28960874457 /* Sources */,
 				FBP_28960874457 /* Frameworks */,
-				SSBP_8245551729 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -548,7 +535,6 @@
 			buildPhases = (
 				SBP_32363685476 /* Sources */,
 				FBP_32363685476 /* Frameworks */,
-				SSBP_8597135982 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -565,7 +551,6 @@
 			buildPhases = (
 				SBP_39231666389 /* Sources */,
 				FBP_39231666389 /* Frameworks */,
-				SSBP_1831918922 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -697,23 +682,6 @@
 			shellScript = "carthage copy-frameworks\n";
 			showEnvVarsInLog = 0;
 		};
-		SSBP_1831918922 /* Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
-			);
-			name = Carthage;
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Result.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "carthage copy-frameworks\n";
-			showEnvVarsInLog = 0;
-		};
 		SSBP_4105437740 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -738,40 +706,6 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/tvOS/Result.framework",
-			);
-			name = Carthage;
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Result.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "carthage copy-frameworks\n";
-			showEnvVarsInLog = 0;
-		};
-		SSBP_8245551729 /* Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/tvOS/Result.framework",
-			);
-			name = Carthage;
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Result.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "carthage copy-frameworks\n";
-			showEnvVarsInLog = 0;
-		};
-		SSBP_8597135982 /* Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/watchOS/Result.framework",
 			);
 			name = Carthage;
 			outputPaths = (
